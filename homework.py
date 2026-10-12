@@ -13,21 +13,19 @@ class Name(Field):
     def __init__(self, name: str):
         super().__init__(name)
 
-        
+# name = Name("John") 
+# print(name)       
 
 class Phone(Field):
     def __init__(self, phone: str):
+        if len(phone) != 10 or not phone.isdigit():
+            raise ValueError ("Phone must counain exactly 10 digits") 
         super().__init__(phone)
        
-    def validate_phone(self):
-        if len(self.value) == 10 and self.value.isdigit():
-            return f' Your number is correct {self.value} '
-        else:
-            return "Phone must counain exactly 10 digits"
-        
-# phone = Phone("2341116791")
-# phone.validate_phone()      
-# print(phone.validate_phone())
+   
+# phone = Phone("7743876363")
+# print(phone)
+
 
 
 class Record:
@@ -44,10 +42,16 @@ class Record:
            return "Phone not found"
         self.phones.remove(found)
         
+
+        
     def edit_phone(self, old_phone: str, new_phone: str):
         found = self.find_phone(old_phone)
         if found is None:
-           return "Phone not found"
+           raise ValueError ("Phone not found")
+       
+        new = Phone(new_phone)
+        index = self.phones.index(found)
+        self.phones[index] = new
        
        
        
@@ -69,7 +73,7 @@ class AddressBook(UserDict):
         return self.data.get(name)
     
     def delete(self, name: str):
-        self.data.pop(name)
+        self.data.pop(name, None)
 
     def __str__(self):
         return "\n".join(str(record) for record in self.data.values())
