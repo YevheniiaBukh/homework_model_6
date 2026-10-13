@@ -56,11 +56,14 @@ class Record:
        
        
     def find_phone(self, phone: str):
-        for item in self.phones:
-            if item.value == phone:
-                return item
-            return None
+        for p in self.phones:
+            if p.value == phone:
+                return p
+        return None
         
+        
+        
+    
     def __str__(self):
                 return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
             
@@ -111,5 +114,7 @@ print(john)
 found_phone = john.find_phone("5555555555")
 print(f"{john.name}: {found_phone}")  # Виведення: John: 5555555555
 
+found_phone = john.find_phone("1112223333")
+print(f"{john.name}: {found_phone}") 
 # Видалення запису Jane
 book.delete("Jane")
